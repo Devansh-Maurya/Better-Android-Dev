@@ -37,4 +37,46 @@ Tips and advices collected while learning Android
           }
       }
   }
-```
+
+* ### TextSwitcher for easy transition animation in Android texts
+  * When used with `ValueAnimator` for timing animations, it can create really good looking animations in a simple way. [TextSwitcher](https://www.zoftino.com/android-textswitcher-tutorial)
+
+  In XML layout:
+   ```xml
+
+   <TextSwitcher
+              android:id="@+id/textSwitcher"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:gravity="center" />
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_gravity="center"
+                  android:gravity="center" />
+   </TextSwitcher>
+  ```
+
+  In activity or fragment:
+   ```kotlin
+
+   textSwitcher.setInAnimation(this, R.anim.slide_in_from_bottom)
+   textSwitcher.setOutAnimation(this, R.anim.slide_out_to_top)
+
+   ValueAnimator.ofInt(0, animationDuration).apply {
+       duration = animationDuration.toLong()
+       interpolator = LinearInterpolator()
+
+       addUpdateListener {
+           if ((it.animatedValue in valueOfInterest) {
+               textSwitcher.setText(texts[keyOrIndex])
+           }
+       }
+       start()
+   }
