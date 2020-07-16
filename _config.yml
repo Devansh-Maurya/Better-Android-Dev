@@ -1,0 +1,8 @@
+title: Behtar Android Dev
+description: Tips and advices collected while learning Android
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
