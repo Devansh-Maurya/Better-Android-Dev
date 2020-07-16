@@ -80,3 +80,19 @@ Tips and advices collected while learning Android
        }
        start()
    }
+   
+* ### Converting an Android Fragment to an Activity
+
+  * Change name and extend `AppCompatActivity` instead of Fragment()
+  * Take code from `onCreateView`, `onViewCreated` and `onActivityCreated` and put in into your Activity's `onCreate` or your `init()` method and call that `init()` method from `onCreate`.
+  * Replace the `newInstance` method with `getStartIntent` or `startActivity` as per your use case. Change required variable names for the same.
+  * Replace all the calls to `getActivity` and `context` with `this` as currently you are in the Activity and it extends the Context class.
+  * If you are using `LiveData` observer, instead of passing `viewLifeCycleOwner`, pass `this` as Activity is a lifecycle owner.
+  * If using ViewModel, change ViewModel's name to follow activity name.
+  * Replace all the `childFragmentManager`s with `supportFragmentManager`.
+  * If you are using Dagger for Dependency Injection:
+    * Change the name of all the modules to match your activity name.
+    * Change the scope of your activity from `PerFragment` to `PerFragment` in your binding module.
+    * In all the fragments which were before added using this Fragment's `childFragmentManager`, when getting ViewModel instance using factory, instead of using `parentFragment`, use  `activity` as `parentFragment` will return null if the fragment is attached to an activity.
+  * There can be some more minor changes depending on some function calls, where you need to find their alternatives in activity.
+    
