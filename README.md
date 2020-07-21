@@ -95,4 +95,8 @@ Tips and advices collected while learning Android
     * Change the scope of your activity from `PerFragment` to `PerFragment` in your binding module.
     * In all the fragments which were before added using this Fragment's `childFragmentManager`, when getting ViewModel instance using factory, instead of using `parentFragment`, use  `activity` as `parentFragment` will return null if the fragment is attached to an activity.
   * There can be some more minor changes depending on some function calls, where you need to find their alternatives in activity.
+  
+* ### Activity Orientation facts and tips
+  * Use `recreate()` inside the activity to reinstantiate the activity. You can do this when you know that a configuration change should take place. For example, let' say you enabled rotation programmatically for your activity at a later time. Then calling `recreate()` will bring the activity in it's proper orientation as per the device orientation.
+
     
