@@ -98,5 +98,7 @@ Tips and advices collected while learning Android
   
 * ### Activity Orientation facts and tips
   * Use `recreate()` inside the activity to reinstantiate the activity. You can do this when you know that a configuration change should take place. For example, let' say you enabled rotation programmatically for your activity at a later time. Then calling `recreate()` will bring the activity in it's proper orientation as per the device orientation.
+  
+  * Use `configChanges` attribute in your activity manifest entry to avoid configuration change and an activity recreation when any of the things mentioned in the attribute value occur. [Handling configuration changes](https://developer.android.com/guide/topics/resources/runtime-changes#HandlingTheChange)
 
     
