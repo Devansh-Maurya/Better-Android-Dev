@@ -100,5 +100,38 @@ Tips and advices collected while learning Android
   * Use `recreate()` inside the activity to reinstantiate the activity. You can do this when you know that a configuration change should take place. For example, let' say you enabled rotation programmatically for your activity at a later time. Then calling `recreate()` will bring the activity in it's proper orientation as per the device orientation.
   
   * Use `configChanges` attribute in your activity manifest entry to avoid configuration change and an activity recreation when any of the things mentioned in the attribute value occur. [Handling configuration changes](https://developer.android.com/guide/topics/resources/runtime-changes#HandlingTheChange)
+  
+  * Create a `CustomOrientationEventListener` to listen for orientation changes of your device. This is useful when you do not want to recreate your activity on device rotation as that can be too costly in some cases, e.g, when your activity is a camera screen.
+  
+  ```kotlin
+  abstract class CustomOrientationEventListener(context: Context)
+    : OrientationEventListener(context) {
 
-    
+    private var previousOrientation = ORIENTATION_UNKNOWN
+    private var currentOrientation = ORIENTATION_UNKNOWN
+
+    override fun onOrientationChanged(orientation: Int) {
+        currentOrientation = when (orientation) {
+            in 45..134 -> {
+                Surface.ROTATION_270
+            }
+            in 135..224 -> {
+                Surface.ROTATION_180
+            }
+            in 225..314 -> {
+                Surface.ROTATION_90
+            }
+            else -> {
+                Surface.ROTATION_0
+            }
+        }
+        if (previousOrientation != currentOrientation && orientation != ORIENTATION_UNKNOWN) {
+            previousOrientation = currentOrientation
+            if (currentOrientation != ORIENTATION_UNKNOWN) {
+                onSimpleOrientationChanged(currentOrientation)
+            }
+        }
+    }
+
+    abstract fun onSimpleOrientationChanged(orientation: Int)
+  }
