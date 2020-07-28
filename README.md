@@ -135,3 +135,7 @@ Tips and advices collected while learning Android
 
     abstract fun onSimpleOrientationChanged(orientation: Int)
   }
+
+* ### Android RemoteViews
+  * A class that describes a view hierarchy that can be displayed in another process. The hierarchy is inflated from a layout resource file, and this class provides some basic operations for modifying the content of the inflated hierarchy.
+  * RemoteViews work with only a very limited set of Views and ViewGroups as mentioned here. [Link](https://developer.android.com/reference/android/widget/RemoteViews)
