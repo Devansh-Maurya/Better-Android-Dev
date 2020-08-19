@@ -139,3 +139,29 @@ Tips and advices collected while learning Android
 * ### Android RemoteViews
   * A class that describes a view hierarchy that can be displayed in another process. The hierarchy is inflated from a layout resource file, and this class provides some basic operations for modifying the content of the inflated hierarchy.
   * RemoteViews work with only a very limited set of Views and ViewGroups as mentioned here. [Link](https://developer.android.com/reference/android/widget/RemoteViews)
+  
+* ### RecyclerView ViewHolders partial update
+
+  * You can notify your RecyclerView.Adapter's observers to issue a partial update of your RecyclerView.ViewHolders by passing a payload Object.
+
+ `notifyItemRangeChanged(positionStart, itemCount, payload);`
+ 
+   Where payload could be or contain a flag that represents relative or absolute time. To bind the payload to your view holders, override the following      onBindViewHolder(viewHolder, position, payloads) method in your adapter, and check the payloads parameter for data.
+
+```kotlin
+ @Override
+ public void onBindViewHolder(MyViewHolder viewHolder, int position, List<Object> payloads) {
+     if (payloads.isEmpty()) {
+         // Perform a full update
+         onBindViewHolder(viewHolder, position);
+     } else {
+         // Perform a partial update
+         for (Object payload : payloads) {
+             if (payload instanceof TimeFormatPayload) {
+                 viewHolder.bindTimePayload((TimeFormatPayload) payload);
+             }
+         }
+     }
+ }
+ ```
+  Within your MyViewHolder.bindTimePayload(payload) method, update your time TextViews to the time format specified in the payload.
