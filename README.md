@@ -142,6 +142,7 @@ Tips and advices collected while learning Android
   
 * ### RecyclerView ViewHolders partial update
 
+  * Link: https://stackoverflow.com/a/36957892/7891801
   * You can notify your RecyclerView.Adapter's observers to issue a partial update of your RecyclerView.ViewHolders by passing a payload Object.
 
  `notifyItemRangeChanged(positionStart, itemCount, payload);`
