@@ -166,3 +166,7 @@ Tips and advices collected while learning Android
  }
  ```
   Within your MyViewHolder.bindTimePayload(payload) method, update your time TextViews to the time format specified in the payload.
+  
+* ### An issue with `FragmentPagerAdapter` in `ViewPager`
+
+  * When using `FragmentPagerAdapter`, avoid storing data in instance variables in `Fragment` instance, as they may not have proper state when fragment is removed and added from `ViewPager`. To prevent this issue with instance variables, use `FragmentStatePagerAdapter`.
