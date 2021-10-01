@@ -174,3 +174,9 @@ Tips and advices collected while learning Android
 * ### An issue with `FragmentPagerAdapter` in `ViewPager`
 
   * When using `FragmentPagerAdapter`, avoid storing data in instance variables in `Fragment` instance, as they may not have proper state when fragment is removed and added from `ViewPager`. To prevent this issue with instance variables, use `FragmentStatePagerAdapter`.
+
+* ### Injecting ViewModel in Fragment
+
+  * Inject dependencies in `onAttach` befor calling `super.onAttach`. Reason: https://stackoverflow.com/a/46043545/7891801
+  * Create your ViewModel in `onViewCreated`. Actually, it can be created in any lifecycle method after `onAttach`, we just need to be consistent about it in our codebase.
+  * If using Kotlin, better to use `by viewModels` delegate function for instantiating ViewModel.
