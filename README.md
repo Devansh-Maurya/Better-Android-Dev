@@ -37,6 +37,10 @@ Tips and advices collected while learning Android
           }
       }
   }
+  
+  fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, onChanged: (T) -> Unit) {
+      observe(owner, EventObserver(onChanged))
+  }
 
 * ### TextSwitcher for easy transition animation in Android texts
   * When used with `ValueAnimator` for timing animations, it can create really good looking animations in a simple way. [TextSwitcher](https://www.zoftino.com/android-textswitcher-tutorial)
