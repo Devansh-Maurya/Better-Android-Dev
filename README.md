@@ -180,3 +180,16 @@ Tips and advices collected while learning Android
   * Inject dependencies in `onAttach` befor calling `super.onAttach`. Reason: https://stackoverflow.com/a/46043545/7891801
   * Create your ViewModel in `onViewCreated`. Actually, it can be created in any lifecycle method after `onAttach`, we just need to be consistent about it in our codebase.
   * If using Kotlin, better to use `by viewModels` delegate function for instantiating ViewModel.
+
+* ### Communicating between fragments and other UI components when using Navigation components
+
+  * Use the following extension functions for communicating between fragments and other UI components when using Navigation components, like `startActivityForResult`:
+
+```kotlin
+fun <T> Fragment.getNavigationResult(key: String = "result") =
+    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
+    
+fun <T> Fragment.setNavigationResult(result: T, key: String = "result") {
+    findNavController().previousBackStackEntry?.savedStateHandle?.set(key, result)
+}
+```
