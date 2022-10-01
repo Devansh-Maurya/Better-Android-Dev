@@ -193,3 +193,20 @@ fun <T> Fragment.setNavigationResult(result: T, key: String = "result") {
     findNavController().previousBackStackEntry?.savedStateHandle?.set(key, result)
 }
 ```
+
+* ### Second thought on using `lazy` in classes serialized using `Gson`
+
+   * Gson tries to serialize property delegates created using `lazy` but fails to do so since there is no backing field for a delegate property by default because it might not store an actual value. This is a general delegate definition, although when we look at the `Lazy<T>` implementation, we can see that it has a value `field` but it's unknow to Gson for obvious reasons. [More info on delegate properties.](https://kotlinlang.org/docs/delegated-properties.html) This results in a crash as:
+  ```kotlin
+  Caused by: java.lang.InstantiationException: can't instantiate class kotlin.Lazy
+  ```
+  
+   * We can annotate the delegate field with a `@Transient` annotation. But using it directly results in the crash:
+   ```kotlin
+   This annotation is not applicable to target 'member property without backing field'
+   ```
+   
+   * To fix this, we can use this annotation with the [annotation use-site target](https://kotlinlang.org/docs/annotations.html#annotation-use-site-targets) `delegate` which puts the annotation on "the field storing the delegate instance for a delegated property", with the syntax as `@delegate:Transient`. As pointed out earlier, since `Lazy` has a field for storing the value, this method works. Example:
+   ```kotlin
+   @delegate:Transient val area by lazy { calculateArea() }
+   ```
