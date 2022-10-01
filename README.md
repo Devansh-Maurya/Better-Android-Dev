@@ -210,3 +210,17 @@ fun <T> Fragment.setNavigationResult(result: T, key: String = "result") {
    ```kotlin
    @delegate:Transient val area by lazy { calculateArea() }
    ```
+* ### Breaking from Kotlin's `forEach` extension function
+   * Trying to `break` from `forEach` using `return@forEach` does not take the progarm out of the `forEach` but on the contrary, acts as a loop's `continue` and skips the part below `return@forEach` for that item and continues with the iteration for the next item.
+   * To get a behavior equivalent to the `break` in a loop, use a ["labeled return"](https://kotlinlang.org/docs/returns.html#return-to-labels):
+   ```kotlin
+   run loop@{
+       listOf(1, 2, 3, 4, 5).forEach {
+           if (it == 3) return@loop // non-local return from the lambda passed to run
+           print(it)
+       }
+   }
+   print("done with nested loop")
+    ```
+    * This will return from the `forEach` after printing till 2.
+    * [Explanation at Kotlin's official documentation](https://kotlinlang.org/docs/returns.html#return-to-labels)
